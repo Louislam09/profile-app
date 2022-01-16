@@ -5,7 +5,7 @@ interface HeaderProps { }
 
 const Header: React.FC<HeaderProps> = ({ }) => {
     return (
-        <div className='bg-dark'>
+        <div className='bg-dark mb-4'>
             <div className='container border-0'>
                 <div className='row'>
                     <Form />

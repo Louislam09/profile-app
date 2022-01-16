@@ -20,15 +20,18 @@ const useField = (type: string, defaultValue: string) => {
 const Form: React.FC<FormProps> = ({ }) => {
     const { setState } = React.useContext(AppContext);
 
-    const username = useField('text', 'louislam09');
+    const username = useField('text', '');
     const requestUrl = (username: string) => `https://bio.torre.co/api/bios/${username}`
 
-    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        fetch(requestUrl(username.value))
-            .then(res => res.json())
-            .then(res => setState(res))
-            .catch(err => console.log(err))
+        try {
+            const response = await fetch(requestUrl(username.value));
+            const data = await response.json();
+            setState(data);
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return (
