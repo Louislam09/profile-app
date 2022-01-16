@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import Layout from '../components/Layout'
 import Profile from '../components/Profile'
 import { AppContext } from './_app';
@@ -15,9 +15,14 @@ const EmptyMessage = ({ message }: any) => (
 
 const Home: NextPage = () => {
   const { state } = useContext(AppContext);
+
+  useEffect(() => {
+    console.log(state)
+  }, [state])
+
   return (
     <Layout>
-      {!state && state?.message && <EmptyMessage {...state} />}
+      {state?.code && <EmptyMessage {...state} />}
       {state && !state.message && <Profile />}
     </Layout>
   )

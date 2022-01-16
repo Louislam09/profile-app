@@ -2,6 +2,7 @@ import Link from 'next/link';
 // import Image from 'next/image';
 import React, { useContext, useEffect } from 'react';
 import { AppContext } from '../pages/_app';
+import Modal from './Modal';
 
 enum SkillNames {
     EXPERT = 'expert',
@@ -43,7 +44,10 @@ const Profile = () => {
                 <div className='d-flex flex-wrap gap-1'>
                     {getSkill(skillName)?.map((skill: any) => (
                         <div key={skill.id} className=''>
-                            <span className={`badge rounded-pill p-2 bg-${colors[color]}`}>{skill.name}</span>
+                            <span className={`badge rounded-pill p-2 bg-${colors[color]} cursor-pointer`} style={{ cursor: 'pointer' }}
+                                data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap"
+                            >{skill.name}</span>
+
                         </div>
                     ))}
                 </div>
@@ -68,7 +72,7 @@ const Profile = () => {
 
                         <div className="d-flex w-100 justify-content-start">
                             <Link href={person?.links[0]?.address || '#!'} passHref={false}>
-                                <button className='btn btn-outline-info btn-sm'>{person?.links[0]?.name}</button>
+                                <button className='btn btn-outline-info btn-sm text-capitalize'>{person?.links[0]?.name}</button>
                             </Link>
                         </div>
                     </div>
@@ -79,6 +83,7 @@ const Profile = () => {
             <div className="row">
                 {allSkills.map((skillName: any) => (SkillSection(skillName)))}
             </div>
+            <Modal />
         </div>
     );
 }

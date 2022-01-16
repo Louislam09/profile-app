@@ -29,6 +29,7 @@ const Form: React.FC<FormProps> = ({ }) => {
             const response = await fetch(requestUrl(username.value));
             const data = await response.json();
             setState(data);
+            console.log(data);
         } catch (error) {
             console.log(error)
         }
