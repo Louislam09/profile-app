@@ -13,23 +13,25 @@ const useField = (type: string, defaultValue: string) => {
     return {
         type,
         value,
-        onChange
+        onChange,
+        setValue
     }
 }
 
 const Form: React.FC<FormProps> = ({ }) => {
-    const { setState } = React.useContext(AppContext);
+    const { setState, currentUser } = React.useContext(AppContext);
+    const userInputRef = React.createRef<HTMLInputElement>();
 
     const username = useField('text', '');
-    const requestUrl = (username: string) => `https://bio.torre.co/api/bios/${username}`
+    const requestUrl = (username: string) => `${process.env.NEXT_PUBLIC_BASE_URL}/user/${username}`
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         try {
             const response = await fetch(requestUrl(username.value));
             const data = await response.json();
+            username.setValue('')
             setState(data);
-            console.log(data);
         } catch (error) {
             console.log(error)
         }
@@ -45,10 +47,14 @@ const Form: React.FC<FormProps> = ({ }) => {
                     <div className='form-group w-50'>
                         <label className='mb-2 h5'>Username</label>
                         <input
-                            {...username}
+                            // {...username}
+                            type='text'
+                            onChange={username.onChange}
                             className='form-control mt-2'
                             name='username'
                             placeholder='username'
+                            ref={userInputRef}
+                            defaultValue={currentUser}
                         />
                     </div>
                     <button type='submit' className='btn btn-info ms-2 align-self-end'>Search</button>
