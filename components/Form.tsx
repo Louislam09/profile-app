@@ -23,7 +23,7 @@ const Form: React.FC<FormProps> = ({ }) => {
     const userInputRef = React.createRef<HTMLInputElement>();
 
     const username = useField('text', '');
-    const requestUrl = (username: string) => `${process.env.NEXT_PUBLIC_BASE_URL}/user/${username}`
+    const requestUrl = (username: string) => `${process.env.NODE_ENV === 'development' ? process.env.NEXT_PUBLIC_BASE_URL : process.env.NEXT_PUBLIC_BASE_URL_PROD}/user/${username}`
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -34,6 +34,7 @@ const Form: React.FC<FormProps> = ({ }) => {
             setState(data);
         } catch (error) {
             console.log(error)
+            setState({ error: 'User not found' });
         }
     }
 

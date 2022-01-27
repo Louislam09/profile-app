@@ -38,7 +38,7 @@ const Profile = () => {
     }
 
     const getUserBySkill = async (skill: string) => {
-        const requestUrl = (skillName: string) => `${process.env.NEXT_PUBLIC_BASE_URL}/userBySkill/${skillName}`
+        const requestUrl = (skillName: string) => `${process.env.NODE_ENV === 'development' ? process.env.NEXT_PUBLIC_BASE_URL : process.env.NEXT_PUBLIC_BASE_URL_PROD}/userBySkill/${skillName}`
         try {
             const response = await fetch(requestUrl(skill));
             const data = await response.json();
@@ -82,8 +82,9 @@ const Profile = () => {
 
     return (
         <div className='container'>
+            {state.error && <div className='alert alert-danger text-center h1'>{state.error}</div>}
             {loadingProfile && <div className='text-center mt-5 pt-5'><Spinner color={'text-info'} size="80px" /> </div>}
-            {!loadingProfile && <>
+            {!loadingProfile && !state.error && <>
                 <div className="row justify-content-center">
                     <div className='d-flex align-items-center justify-content-center col-sm-auto  p-3 w-50 flex-ms-column'>
                         <div className="col-md-6 col-lg-3">

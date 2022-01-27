@@ -10,9 +10,10 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    if (currentUser === '') return
     const fetchData = async () => {
       setLoading(true);
-      const requestUrl = (username: string) => `${process.env.NEXT_PUBLIC_BASE_URL}/user/${username}`
+      const requestUrl = (username: string) => `${process.env.NODE_ENV === 'development' ? process.env.NEXT_PUBLIC_BASE_URL : process.env.NEXT_PUBLIC_BASE_URL_PROD}/user/${username}`
       try {
         const response = await fetch(requestUrl(currentUser));
         const data = await response.json();
@@ -20,6 +21,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         setLoading(false)
       } catch (error) {
         console.log(error)
+        setState({ error: 'User not found' });
         setLoading(false)
       }
     };

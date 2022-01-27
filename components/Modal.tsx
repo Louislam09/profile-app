@@ -51,7 +51,7 @@ const Modal: React.FC<ModalProps> = ({ currentSkill, userBySkillData, loading })
                         </div>
                         <div className="modal-body">
                             <ScrollContainer className="container-fluid" style={{ height: '600px', overflow: 'auto' }}>
-                                {userBySkillData.map((user: any) => (<ProfileCard user={user} closeRef={closeRef} />))}
+                                {userBySkillData.map((user: any) => (<ProfileCard key={user.username} user={user} closeRef={closeRef} />))}
                             </ScrollContainer>
                         </div>
                         <div className="modal-footer">
